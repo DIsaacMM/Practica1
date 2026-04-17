@@ -5,7 +5,7 @@
             "includePath": [ // Add all the include paths here
                 "${workspaceFolder}/CMSIS/*/include", 
                 "${workspaceFolder}", 
-                "${workspaceFolder}/includes/*"
+                "${workspaceFolder}/includes"
             ],
             "defines": [ // Add all the project defines here
                 "STM32F411xE"

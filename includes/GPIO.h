@@ -1,5 +1,5 @@
 /**
- * @file register.h
+ * @file GPIO.h
  * @brief Module that manipulates a GPIO for a STM23
  * 
  * The user may use multiple functions to perform bit manipulations

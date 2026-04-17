@@ -1,14 +1,10 @@
 #include "GPIO.h"
 
 /*
- 
     Description: initializes the GPIO subsystem
     Functional Requirements: 
         FR-1: The system shall configure all GPIO ports to a default state. 
- 
  */
-
-
 typedef enum port
  {
     A, 
@@ -33,8 +29,6 @@ void gpio_init()
     gpio[4] = GPIOE;
     gpio[5] = GPIOH;
 }
-
-
 
 /*
  
@@ -68,8 +62,6 @@ void gpio_initPort(port_t p)
     RCC->AHB1ENR |= (1UL << p);   
 
 }
-
-
  
 /*
     Description: Configures the mode of a specific pin.
@@ -86,7 +78,7 @@ void gpio_initPort(port_t p)
 void gpio_setPinMode(port_t p, uint8_t pin, uint8_t mode)
 {
     // If not within the range of the Micro's GPIOs, exit
-    if(p < 0 || p > 6 || mode > 3 || pin > 15)
+    if(p < 0 || p > 6)
     {
         return;
     }
@@ -111,8 +103,6 @@ void gpio_setPinMode(port_t p, uint8_t pin, uint8_t mode)
     // To modify each pin, you have to consider that each pin uses two bits
     gpio[p]->MODER |= (mode << (pin*2)); 
 }
-
-
 
 /*
     Description: Sets a pin to logic high.
@@ -140,8 +130,6 @@ void gpio_setPin(port_t p, uint8_t pin)
     // Use the lower Bit set registers to set the indicated pin of GPIOx to 1
     gpio[p]->BSRR = (1 << pin); 
 }
-
-
 
 /*
  
@@ -172,10 +160,7 @@ void gpio_clearPin(port_t p, uint8_t pin)
     gpio[p]->BSRR = (1 << (pin + 16)); 
 }
 
-
-
 /*
- 
     Description: Toggles the state of a pin.
     Functional Requirements: 
         FR-6: The system shall invert the current state of the specified pin.
@@ -199,8 +184,6 @@ void gpio_togglePin(port_t p, uint8_t pin)
     // XOR the pin value to change it from 0 to 1 and 1 to 0
     gpio[p]->ODR ^= (1 << pin);
 }
-
-
 
 /*
  
