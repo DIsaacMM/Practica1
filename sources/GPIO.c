@@ -1,22 +1,23 @@
+/**
+ * @file GPIO.c
+ * @brief Module that manipulates a GPIO and a pin from a STM32
+ * 
+ * The user may use this module with multiple functions to:
+ * Initialize a STM32 GPIO port and manipulate a specific pin 
+ *
+ * @authors David Mijares, Ximena Cedillo, Xavier Clemente
+ *
+ */
 #include "GPIO.h"
 
-/*
-    Description: initializes the GPIO subsystem
-    Functional Requirements: 
-        FR-1: The system shall configure all GPIO ports to a default state. 
+GPIO_TypeDef* gpio[size]; 
+/**
+ * @brief Initializes the GPIO subsystem
+ * 
+ * This function shall configure all GPIO ports to a default state. 
+ * 
+ * @return No return value
  */
-typedef enum port
- {
-    A, 
-    B, 
-    C, 
-    D, 
-    E, 
-    H, 
-    size
- }port_t; 
-
-  GPIO_TypeDef* gpio[size]; 
 
 
 void gpio_init()
@@ -30,22 +31,17 @@ void gpio_init()
     gpio[5] = GPIOH;
 }
 
-/*
- 
-    Description: Initializes a specific GPIO port
-    Functional Requirements: 
-        FR-2: The system shall enable clocking for the specified port 
- 
-        Initialize a specific GPIO port, start its clock
-
-    The function shall receive an input number that will be interpreted by the ENUM
-    This will indicate to the gpio array which STM32 GPIO to work with
+ /**
+ * @brief Initializes a specific GPIO port
+ * 
+ * This function shall enable clocking for the specified port 
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @return No return value
  */
 
 void gpio_initPort(port_t p)
 {
-    
-    
     // If not within the range of the Micro's GPIOs, exit
     if(p < 0 || p > 6)
     {
@@ -60,19 +56,17 @@ void gpio_initPort(port_t p)
     
     // Enable the clock for the selected Port
     RCC->AHB1ENR |= (1UL << p);   
-
 }
- 
-/*
-    Description: Configures the mode of a specific pin.
-    Functional Requirements: 
-        FR-3: The system shall allow configuration of pin direction and mode. 
 
-    The function receives the following parameters: 
-
-    1. A number that will be interpreted by the ENUM as the GPIOx to work with
-    2. An unsigned int indicating which pin within the GPIO to modify
-    3. An unsigned int indicating which mode to assign to the GPIOx pin
+ /**
+ * @brief Configures the mode of a specific pin.
+ * 
+ * This function shall allow configuration of pin direction and mode.
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @param pin unsigned int indicating which pin within the GPIO to modify
+ * @param mode unsigned int indicating which mode to assign to the GPIOx pin
+ * @return No return value
  */
 
 void gpio_setPinMode(port_t p, uint8_t pin, uint8_t mode)
@@ -104,14 +98,14 @@ void gpio_setPinMode(port_t p, uint8_t pin, uint8_t mode)
     gpio[p]->MODER |= (mode << (pin*2)); 
 }
 
-/*
-    Description: Sets a pin to logic high.
-    Functional Requirements: 
-        FR-4: The system shall drive the specified pin to a high state.
-
-    The function receives the following parameters: 
-    1. A number that will be interpreted by the ENUM as the GPIOx to work with
-    2. An unsigned int indicating which pin within the GPIO to modify
+ /**
+ * @brief Sets a pin to logic HIGH.
+ * 
+ * This function shall drive the specified pin to a high state.
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @param pin unsigned int indicating which pin within the GPIO to modify
+ * @return No return value
  */
 
 void gpio_setPin(port_t p, uint8_t pin)
@@ -131,15 +125,14 @@ void gpio_setPin(port_t p, uint8_t pin)
     gpio[p]->BSRR = (1 << pin); 
 }
 
-/*
- 
-    Description: Clears a pin to logic low.
-    Functional Requirements: 
-        FR-5: The system shall drive the specified pin to a low state.
-    
-    The function receives the following parameters: 
-    1. A number that will be interpreted by the ENUM as the GPIOx to work with
-    2. An unsigned int indicating which pin within the GPIO to modify
+ /**
+ * @brief Clears a pin to logic LOW.
+ * 
+ * This function shall drive the specified pin to a low state.
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @param pin unsigned int indicating which pin within the GPIO to modify
+ * @return No return value
  */
 
 void gpio_clearPin(port_t p, uint8_t pin)
@@ -160,13 +153,14 @@ void gpio_clearPin(port_t p, uint8_t pin)
     gpio[p]->BSRR = (1 << (pin + 16)); 
 }
 
-/*
-    Description: Toggles the state of a pin.
-    Functional Requirements: 
-        FR-6: The system shall invert the current state of the specified pin.
-    The function receives the following parameters: 
-        1. A number that will be interpreted by the ENUM as the GPIOx to work with
-        2. An unsigned int indicating which pin within the GPIO to modify
+ /**
+ * @brief Toggles the state of a pin.
+ * 
+ * This function shall invert the current state of the specified pin.
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @param pin unsigned int indicating which pin within the GPIO to modify
+ * @return No return value
  */
 
 void gpio_togglePin(port_t p, uint8_t pin)
@@ -185,15 +179,15 @@ void gpio_togglePin(port_t p, uint8_t pin)
     gpio[p]->ODR ^= (1 << pin);
 }
 
-/*
- 
-    Description: Reads the current state of a pin.
-    Functional Requirements: 
-        FR-7: The system shall return the digital state of the specified pin.
-    The function receives the following parameters: 
-        1. A number that will be interpreted by the ENUM as the GPIOx to work with
-        2. An unsigned int indicating which pin within the GPIO to modify
- */
+ /**
+ * @brief Reads the current state of a pin.
+ * 
+ * This function shall return the digital state of the specified pin.
+ * 
+ * @param p The letter or number of the GPIO port that is going to be initialized
+ * @param pin unsigned int indicating which pin within the GPIO to modify
+ * @return The state of the pin (HIGH or LOW)
+ */ 
 
 uint8_t gpio_readPin(port_t p, uint8_t pin)
 {
@@ -212,6 +206,6 @@ uint8_t gpio_readPin(port_t p, uint8_t pin)
     }
     else
     {
-        return; 
+        return 0; 
     }
 }

@@ -1,18 +1,31 @@
+#ifndef GPIO_H  //If GPIO_H is not defined
+#define GPIO_H  // define
+
 /**
  * @file GPIO.h
  * @brief Module that manipulates a GPIO for a STM23
  * 
- * The user may use multiple functions to perform bit manipulations
- * on a given register.
- *
+ * The user may use this module with multiple functions to:
+ * Initialize a STM32 GPIO port and manipulate a specific pin 
+ * 
  * @author David Mijares
- * @date 
- *
  */
 
 #include <stdint.h>
 #include "stm32f4xx.h" 
 
+typedef enum port
+ {
+    A, 
+    B, 
+    C, 
+    D, 
+    E, 
+    H, 
+    size
+ }port_t; 
+
+extern GPIO_TypeDef* gpio[size];
 /*
  
     Description: initializes de GPIO subsytem
@@ -112,3 +125,5 @@ void gpio_togglePin(port_t p, uint8_t pin);
  */
 
 uint8_t gpio_readPin(port_t p, uint8_t pin);
+
+#endif

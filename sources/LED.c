@@ -1,43 +1,61 @@
+/**
+ * @file LED.c
+ * @brief Module that controls a LED inside a STM32
+ * 
+ * The user may use this module to initialize and control the state of a LED inside an STM32
+ * 
+ * @authors David Mijares, Ximena Cedillo, Xavier Clemente
+ */
 #include "LED.h"
-#include "push_button.c"
 
-#define LED_PORT A
-#define LED_PIN 5
-#define LED_OUTPUT_MODE 1 
-
-/*
-LED: 
-    User LD2: the green LED is a user LED connected to ARDUINO® signal D13 corresponding
-    to STM32 I/O PA5 (pin 21) or PB13 (pin 34) depending on the STM32 target. Refer to
-    Table 11 to Table 23 when:
-        • the I/O is HIGH value, the LED is on
-        • the I/O is LOW, the LED is off
-
-    Funciones del LED
-        led_init
-        led_on
-        led_off
-        led_toggle
-
-        Utilizar las funciones del GPIO internas
-*/
+/**
+ * @brief Initializes the user LED as an output inside a STM32 
+ * 
+ * This function initializes the LED's GPIO port and pin as an output
+ * 
+ * @return No return values
+ */
 
 void led_init()
 {
-    gpio_initPort(LED_PORT);                                // Se inicializa el puerto del LED
-    gpio_setPinMode(LED_PORT, LED_PIN, LED_OUTPUT_MODE);    // Se pone el LED en modo de salida
-    led_on();                                               // El led comienza apagado
+    gpio_initPort(LED_PORT);                                // THe LED's port is initialized 
+    gpio_setPinMode(LED_PORT, LED_PIN, LED_OUTPUT_MODE);    // The LED is configured as an output pin 
+    led_on();                                               // THe LED is turned on 
 }
+
+/**
+ * @brief Turns on the LED
+ * 
+ * This function sets the LED's pin on HIGH to turn it on
+ * 
+ * @return No return values
+ */
 
 void led_on()
 {
-    gpio_setPin(LED_PORT, LED_PIN);                         // Se pone el LED en alto (Se prende)
+    gpio_setPin(LED_PORT, LED_PIN);                         // The LED is set to HIGH
 }
+
+/**
+ * @brief Turns off the LED
+ * 
+ * This function sets the LED's pin on LOW to turn it off
+ * 
+ * @return No return values
+ */
 
 void led_off()
 {
-    gpio_clearPin(LED_PORT, LED_PIN);                       // Se pone el LED en bajo (Se apaga)
+    gpio_clearPin(LED_PORT, LED_PIN);                       // The LED is set to LOW 
 }
+
+/**
+ * @brief Toggles the LED
+ * 
+ * This function swithces the LED's state from HIGH to LOW or from LOW to HIGH
+ * 
+ * @return No return values
+ */
 
 void led_toggle()                                              
 {

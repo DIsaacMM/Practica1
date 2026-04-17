@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "stm32f4xx.h"
+#include "system_stm32f4xx.h"
 
 /* ================== LINKER SYMBOLS ================== */
 extern uint32_t _estack; 
@@ -55,7 +56,7 @@ void Reset_Handler()
 {
     
     /* Call the clock system initialization function. */
-﻿   SystemInit();
+    SystemInit(); 
 
     /* 1. Tamaños */
     uint32_t data_mem_size = (uint32_t)&_edata - (uint32_t)&_sdata; 

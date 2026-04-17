@@ -23,7 +23,7 @@ ARCHFLAGS = 		\
 
 
 # Archivos objeto (se generarán en build/)
-OBJS = $(addprefix $(BUILD_DIR)/, $(notdir $(SRC:.c=.o))) # Crear lista de objetos (.o) de la lista de source (.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC)) # Crear lista de objetos (.o) de la lista de source (.c)
 
 CC = arm-none-eabi-gcc
 
@@ -44,7 +44,8 @@ LDFLAGS = 		\
 $(LINKER_FILE)	\
 
 # Regla para compilar .c a .o en build/
-$(BUILD_DIR)/%.o : $(SRC_DIR)/%.c | $(BUILD_DIR)
+$(BUILD_DIR)/%.o : $(SRC_DIR)/%.c
+	mkdir -p $(BUILD_DIR)
 	$(CC) -c $< $(CFLAGS) $(INCLUDES) -o $@
 
 # Crear directorio build si no existe
@@ -63,8 +64,8 @@ $(EXEC) : $(OBJS)
 flash : $(EXEC)
 	openocd -f board/st_nucleo_f4.cfg -c "program $(EXEC) verify reset" -c shutdown
 
-.PHONY : clear
+.PHONY : clean
 
-clear : 
+clean : 
 	rm -f $(OBJS) $(EXEC)
 	rm -rf $(BUILD_DIR)

@@ -1,38 +1,62 @@
+#ifndef LED_H
+#define LED_H
 /**
  * @file LED.h
- * @brief Module that manipulates a LED from a STM23
+ * @brief Module that controls a LED inside a STM32
  * 
- * The header file initializes a LED in an STM32 to show the output from a push button
+ * The user may use this module to initialize and control the state of a LED inside an STM32
  * 
- * @author David Mijares, Ximena, Xavier
- * @date 
+ * @authors David Mijares, Ximena Cedillo, Xavier Clemente
  *
  */
 
 #include <stdint.h>
 #include "stm32f4xx.h" 
 
-/*
-LED: 
-    User LD2: the green LED is a user LED connected to ARDUINO® signal D13 corresponding
-    to STM32 I/O PA5 (pin 21) or PB13 (pin 34) depending on the STM32 target. Refer to
-    Table 11 to Table 23 when:
-        • the I/O is HIGH value, the LED is on
-        • the I/O is LOW, the LED is off
+#include "GPIO.h"
 
-    Funciones del LED
-        led_init
-        led_on
-        led_off
-        led_toggle
+#define LED_PORT A
+#define LED_PIN 5
+#define LED_OUTPUT_MODE 1 
 
-        Utilizar las funciones del GPIO internas
-*/
+/**
+ * @brief Initializes the user LED as an output inside a STM32 
+ * 
+ * This function initializes the LED's GPIO port and pin as an output
+ * 
+ * @return No return values
+ */
 
 void led_init();
 
+/**
+ * @brief Turns on the LED
+ * 
+ * This function sets the LED's pin on HIGH to turn it on
+ * 
+ * @return No return values
+ */
+
 void led_on();
+
+/**
+ * @brief Turns off the LED
+ * 
+ * This function sets the LED's pin on LOW to turn it off
+ * 
+ * @return No return values
+ */
 
 void led_off();
 
+/**
+ * @brief Toggles the LED
+ * 
+ * This function swithces the LED's state from HIGH to LOW or from LOW to HIGH
+ * 
+ * @return No return values
+ */
+
+
 void led_toggle();
+#endif

@@ -1,39 +1,42 @@
+/**
+ * @file push_button.c
+ * @brief Module that controls a push button inside a STM32
+ * 
+ * The user may use this module to initialize a push button inside an STM32 and adds debounce logic to it
+ * 
+ * @authors David Mijares, Ximena Cedillo, Xavier Clemente
+ *
+ */
 #include "push_button.h"
-#include "GPIO.c"
-
-#define BUTTON_PORT C
-#define BUTTON_PIN 13
-#define BUTTON_INPUT_MODE 0 
 #define DEBOUNCE_DELAY 20000
 
-/*
-Push Button: 
-    B1 USER: the user button is connected to the I/O PC13 (pin 2) of the STM32
-    microcontroller.
-
-    Funciones a implementar en el Push Button
-        button_init
-        button_get_state
-    Utilizar las funciones del GPIO para detectar el estado del boton.
-*/
-
-// función para delay antirrebote
 static void delay()
 {
     for(volatile int i = 0; i < DEBOUNCE_DELAY; i++);
 }
 
-/*
-    La funcion debe inicializar el boton Push Button
-        B1 USER: the user button is connected to the I/O PC13 (pin 2) of the STM32
-        microcontroller.
-*/
+
+/**
+ * @brief Initializes the user push button as an inpute inside a STM32 
+ * 
+ * This function initializes the push button GPIO port and pin as an input
+ * 
+ * @return No return values
+ */
 
 void button_init() 
 {
     gpio_initPort(BUTTON_PORT);
     gpio_setPinMode(BUTTON_PORT, BUTTON_PIN, BUTTON_INPUT_MODE);
 }
+
+/**
+ * @brief Gets the state of the push button  
+ * 
+ * This function returns HIGH or LOW depending if the button was pressed
+ * 
+ * @return Returns HIGH or LOW 
+ */
 
 uint8_t button_get_state() 
 {
